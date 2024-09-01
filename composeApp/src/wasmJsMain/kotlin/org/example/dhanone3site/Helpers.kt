@@ -2,8 +2,11 @@ package org.example.dhanone3site
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.*
@@ -19,13 +22,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dhanone3site.composeapp.generated.resources.*
 import dhanone3site.composeapp.generated.resources.Res
-import dhanone3site.composeapp.generated.resources.compose_multiplatform
-import dhanone3site.composeapp.generated.resources.database100
+import dhanone3site.composeapp.generated.resources.hospital64
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
@@ -193,6 +197,151 @@ fun Section5Component(
 }
 
 @Composable
-fun LeadershipTeamComponent() {
+fun LeadershipTeamComponent(
+    onClick: () -> Unit,
+    image: DrawableResource,
+    modifier: Modifier = Modifier,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+) {
     //TODO
+    val isHovered by interactionSource.collectIsHoveredAsState()
+    val sizeIncreaseMultipler by animateFloatAsState(
+        targetValue = if (isHovered) 1.2f else 1.0f,
+        animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
+    )
+
+
+    Button(
+        onClick = { /*TODO*/ },
+        modifier = Modifier.size(width = 260.dp * sizeIncreaseMultipler, height = 300.dp * sizeIncreaseMultipler)
+            .clip(RoundedCornerShape(12.dp))
+            .border(1.dp, Color.Black, RoundedCornerShape(12.dp))
+            .then(modifier),
+        interactionSource = interactionSource,
+        shape = RoundedCornerShape(6.dp),
+        colors = ButtonDefaults.outlinedButtonColors(
+            backgroundColor = Color.White,
+        ),
+        contentPadding = PaddingValues(0.dp)
+    ) {
+        Column(
+            modifier = Modifier.size(
+                width = 260.dp * sizeIncreaseMultipler,
+                height = 300.dp * sizeIncreaseMultipler
+            ),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Image(
+                painter = painterResource(resource = image),
+                contentDescription = null,
+                modifier = Modifier.fillMaxWidth()
+                    .height(235.dp * sizeIncreaseMultipler)
+                    .clip(RoundedCornerShape(topEnd = 12.dp, topStart = 12.dp)),
+                contentScale = ContentScale.FillBounds
+            )
+            Spacer(modifier = Modifier.height(10.dp * sizeIncreaseMultipler))
+            Row(
+                modifier = Modifier.fillMaxSize().padding(bottom = 10.dp * sizeIncreaseMultipler),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                // Social Media Icons Row
+                Button(
+                    onClick = onClick,
+                    shape = CircleShape,
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        backgroundColor = Color.White,
+                    ),
+                    modifier = Modifier.size(40.dp * sizeIncreaseMultipler).clip(CircleShape),
+                    border = ButtonDefaults.outlinedBorder.copy(
+                        width = 1.dp,
+                        brush = Brush.sweepGradient(
+                            0.0f to Color.Black,
+                            1.0f to Color.Black
+                        ),
+                    ),
+                    contentPadding = PaddingValues(0.dp)
+                ){
+                    Icon(
+                        painter = painterResource(resource = Res.drawable.icons8_linkedin),
+                        contentDescription = "linkedin",
+                        modifier = Modifier.clip(CircleShape).padding(5.dp),
+                        tint = Color.Black
+                    )
+                }
+                Spacer(modifier = Modifier.width(10.dp * sizeIncreaseMultipler))
+                Button(
+                    onClick = onClick,
+                    shape = CircleShape,
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        backgroundColor = Color.White,
+                    ),
+                    modifier = Modifier.size(40.dp * sizeIncreaseMultipler).clip(CircleShape),
+                    border = ButtonDefaults.outlinedBorder.copy(
+                        width = 1.dp,
+                        brush = Brush.sweepGradient(
+                            0.0f to Color.Black,
+                            1.0f to Color.Black
+                        ),
+                    ),
+                    contentPadding = PaddingValues(0.dp)
+                ){
+                    Icon(
+                        painter = painterResource(resource = Res.drawable.icons8_instagram),
+                        contentDescription = "instagram",
+                        modifier = Modifier.clip(CircleShape).padding(5.dp),
+                        tint = Color.Black
+                    )
+                }
+                Spacer(modifier = Modifier.width(10.dp * sizeIncreaseMultipler))
+                Button(
+                    onClick = onClick,
+                    shape = CircleShape,
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        backgroundColor = Color.White,
+                    ),
+                    modifier = Modifier.size(40.dp * sizeIncreaseMultipler).clip(CircleShape),
+                    border = ButtonDefaults.outlinedBorder.copy(
+                        width = 1.dp,
+                        brush = Brush.sweepGradient(
+                            0.0f to Color.Black,
+                            1.0f to Color.Black
+                        ),
+                    ),
+                    contentPadding = PaddingValues(0.dp)
+                ){
+                    Icon(
+                        painter = painterResource(resource = Res.drawable.icons8_twitterx),
+                        contentDescription = "twitterx",
+                        modifier = Modifier.clip(CircleShape).padding(5.dp),
+                        tint = Color.Black
+                    )
+                }
+                Spacer(modifier = Modifier.width(10.dp * sizeIncreaseMultipler))
+                Button(
+                    onClick = onClick,
+                    shape = CircleShape,
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        backgroundColor = Color.White,
+                    ),
+                    modifier = Modifier.size(40.dp * sizeIncreaseMultipler).clip(CircleShape),
+                    border = ButtonDefaults.outlinedBorder.copy(
+                        width = 1.dp,
+                        brush = Brush.sweepGradient(
+                            0.0f to Color.Black,
+                            1.0f to Color.Black
+                        ),
+                    ),
+                    contentPadding = PaddingValues(0.dp)
+                ){
+                    Icon(
+                        painter = painterResource(resource = Res.drawable.icons8_facebook),
+                        contentDescription = "facebook",
+                        modifier = Modifier.clip(CircleShape).padding(5.dp),
+                        tint = Color.Black
+                    )
+                }
+            }
+        }
+    }
 }

@@ -1,15 +1,18 @@
 package org.example.dhanone3site
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PageSize
+import androidx.compose.foundation.pager.PagerDefaults
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -21,6 +24,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dhanone3site.composeapp.generated.resources.*
@@ -28,9 +32,12 @@ import dhanone3site.composeapp.generated.resources.Res
 import dhanone3site.composeapp.generated.resources.barchart64
 import dhanone3site.composeapp.generated.resources.database100
 import dhanone3site.composeapp.generated.resources.linechart
+import kotlinx.browser.window
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.painterResource
 
+val screenWidth = window.screen.width
+val screenHeight = window.screen.height
 
 @Composable
 fun NavigationBar() {
@@ -56,7 +63,7 @@ fun NavigationBar() {
             Text("Company", color = Color.White, fontSize = 16.sp)
         }
         Button(
-            onClick = { },
+            onClick = { TODO() },
             modifier = Modifier.padding(horizontal = 40.dp),
             colors = ButtonDefaults.buttonColors(backgroundColor = orange)
         ) {
@@ -241,9 +248,35 @@ fun Section5() {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LeadershipTeam() {
+    val pagerState = rememberPagerState(pageCount = { LeadershipComponentDataSet.size }, initialPage = 0)
+    //TODO
+    Row(
+        modifier = Modifier.fillMaxWidth()
+            .background(color = beige),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
 
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.fillMaxWidth().background(beige),
+            pageSize = PageSize.Fixed(250.dp * 1.2f),
+            pageSpacing = 10.dp,
+            contentPadding = PaddingValues(10.dp),
+            beyondBoundsPageCount = 1,
+        ) { item ->
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                LeadershipTeamComponent(image = LeadershipComponentDataSet[item].image, onClick = { window.open(LeadershipComponentDataSet[item].url, "_blank") })
+            }
+        }
+    }
 }
 
 @Composable
@@ -299,6 +332,7 @@ fun Footer() {
 //        }
     }
 }
+
 @Composable
 fun MainScreen() {
     Column(
@@ -321,7 +355,7 @@ fun MainScreen() {
         Column(
             modifier = Modifier.fillMaxWidth()
                 .background(color = beige)
-                .padding(start = 150.dp, end = 150.dp, top = 80.dp, bottom = 60.dp),
+                .padding(start = 150.dp, end = 150.dp, top = 80.dp, bottom = 10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Section2()
@@ -331,7 +365,16 @@ fun MainScreen() {
             Section4()
             Spacer(modifier = Modifier.height(75.dp))
             Section5()
+            Spacer(modifier = Modifier.height(75.dp))
+            Text(
+                "Leadership Team",
+                color = navyBlue,
+                fontSize = MaterialTheme.typography.h2.fontSize,
+                fontWeight = FontWeight.ExtraBold
+            )
         }
+        LeadershipTeam()
+        Spacer(modifier = Modifier.height(30.dp).background(color = beige))
         Column(
             modifier = Modifier.fillMaxWidth()
                 .background(color = FooterColor)
